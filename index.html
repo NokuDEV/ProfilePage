@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@4kko on socials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .neon-text {
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
+            color: #fff;
+        }
+
+        .neon-border {
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .drop {
+            position: absolute;
+            bottom: 100%;
+            width: 2px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.4);
+            animation: fall 1.2s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        #entryPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease;
+        }
+
+        #entryPage.fade-out {
+            opacity: 0;
+        }
+
+        #profilePage {
+            display: none;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 1.5rem;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6));
+        }
+
+        audio::-webkit-media-controls-panel {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen overflow-hidden font-sans">
+    <div id="entryPage">
+        <h1 class="text-5xl font-extrabold neon-text cursor-pointer hover:scale-105 transition-transform duration-300">Enter</h1>
+    </div>
+    <div id="profilePage" class="flex justify-center items-center min-h-screen">
+        <div class="rain" id="rain"></div>
+        <div class="container p-8 max-w-md text-center">
+            <div class="profile flex items-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full mr-4 border-2 border-white neon-border"></div>
+                <div>
+                    <h1 class="username text-2xl font-extrabold neon-text" id="username">4KKO</h1>
+                    <div class="badges inline-flex gap-2 ml-2">
+                        <span class="badge bg-black text-white px-2 py-1 rounded-full text-sm font-bold neon-border">❖</span>
+                        <span class="badge bg-black text-white px-2 py-1 rounded-full text-sm font-bold neon-border">♛</span>
+                        <span class="badge bg-black text-white px-2 py-1 rounded-full text-sm font-bold neon-border">💻</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-gray-300 text-sm mb-4">joined recently</div>
+            <p class="bio text-lg text-white italic my-4 neon-text">"If God is all u have, u have all u need"</p>
+            <div class="timestamp flex items-center justify-center text-gray-300 text-sm mb-4 bg-black bg-opacity-60 rounded-lg p-2 neon-border">
+                <div class="w-8 h-8 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full mr-2 border-2 border-white neon-border"></div>
+                <span>@4kko • online</span>
+            </div>
+            <div class="links flex justify-center gap-4">
+                <a href="#" class="text-white hover:scale-110 transition-transform duration-200" id="bitcoinIcon"><img src="https://img.icons8.com/ios-filled/50/ffffff/bitcoin.png" alt="Bitcoin" class="w-8 h-8"></a>
+                <a href="https://t.me/awpez" target="_blank" class="text-white hover:scale-110 transition-transform duration-200" id="telegramIcon"><img src="https://img.icons8.com/ios-filled/50/ffffff/telegram-app.png" alt="Telegram" class="w-8 h-8"></a>
+                <div class="flex items-center text-gray-300 text-sm neon-text"><span>👁️‍🗨️ <span id="viewCount">264</span></span></div>
+                <a href="https://discord.com/users/415449922033418242" target="_blank" class="text-white hover:scale-110 transition-transform duration-200" id="discordIcon"><img src="https://img.icons8.com/ios-filled/50/ffffff/discord-logo.png" alt="Discord" class="w-8 h-8"></a>
+                <a href="#" class="text-white hover:scale-110 transition-transform duration-200" id="moneroIcon"><img src="https://img.icons8.com/ios-filled/50/ffffff/monero.png" alt="Monero" class="w-8 h-8"></a>
+            </div>
+            <div class="audio-player mt-6">
+                <audio id="backgroundAudio" controls>
+                    <source src="/home/ezy/Downloads/Guns.lol Knockoff/rsk.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const entryPage = document.getElementById("entryPage");
+        const profilePage = document.getElementById("profilePage");
+        const audio = document.getElementById("backgroundAudio");
+
+        entryPage.addEventListener("click", () => {
+            entryPage.classList.add("fade-out");
+            setTimeout(() => {
+                entryPage.style.display = "none";
+                profilePage.style.display = "flex";
+                typeWriter();
+                setTimeout(() => {
+                    audio.play().catch(() => {});
+                }, 90);
+            }, 800);
+        });
+
+        const username = "4kko";
+        let i = 0;
+        let forward = true;
+        const speed = 200;
+        const pauseDuration = 2000;
+        const usernameElement = document.getElementById("username");
+        usernameElement.textContent = "";
+
+        function typeWriter() {
+            if (forward) {
+                if (i < username.length) {
+                    usernameElement.textContent += username.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    setTimeout(() => {
+                        forward = false;
+                        i--;
+                        typeWriter();
+                    }, pauseDuration);
+                }
+            } else {
+                if (i >= 0) {
+                    usernameElement.textContent = username.slice(0, i);
+                    i--;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    forward = true;
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+            if (i === username.length) {
+                usernameElement.style.borderRight = "2px solid #fff";
+                setInterval(() => {
+                    usernameElement.style.borderRight = usernameElement.style.borderRight ? "" : "2px solid #fff";
+                }, 400);
+            }
+        }
+
+        const rainContainer = document.getElementById("rain");
+        const dropCount = 60;
+
+        for (let i = 0; i < dropCount; i++) {
+            const drop = document.createElement("div");
+            drop.className = "drop";
+            drop.style.left = `${Math.random() * 100}%`;
+            drop.style.animationDelay = `${Math.random() * 1.2}s`;
+            drop.style.opacity = Math.random() * 0.4 + 0.3;
+            rainContainer.appendChild(drop);
+        }
+
+        document.getElementById("bitcoinIcon").addEventListener("click", () => {
+            navigator.clipboard.writeText("3QD1knuF8RzTvNHg6mxFhRAGd47z5AzrWd").then(() => {
+                alert("Bitcoin address copied!");
+            }).catch(() => {
+                alert("Failed to copy Bitcoin address");
+            });
+        });
+
+        document.getElementById("moneroIcon").addEventListener("click", () => {
+            navigator.clipboard.writeText("48zQmW7s6L1JFhWjSxq9Q4ZqRmYfbSvfEYr3LHoF1aEGv6TMDGc4C8G4gT4pMh1ZdV7j7mMRLpz1kxcmakjY2tUn3DdQgJr").then(() => {
+                alert("Monero address copied!");
+            }).catch(() => {
+                alert("Failed to copy Monero address");
+            });
+        });
+    </script>
+</body>
+</html>
